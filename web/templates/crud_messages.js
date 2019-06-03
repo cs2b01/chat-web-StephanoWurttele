@@ -1,5 +1,5 @@
 $(function(){
-    var url = "http://127.0.0.1:8080/users";
+    var url = "http://127.0.0.1:8080/messages";
 
 
     $("#grid").dxDataGrid({
@@ -29,18 +29,28 @@ $(function(){
             showPageSizeSelector: true,
             allowedPageSizes: [8, 12, 20]
         },
+        filterRow: {
+            visible: true
+        },
+        headerFilter: {
+            visible: true
+        },
+
         columns: [{
             dataField: "id",
             dataType: "number",
             allowEditing: false
         }, {
-            dataField: "username"
+            dataField: "content"
         }, {
-            dataField: "name"
+            dataField: "sent_on",
+            dataType: "string",
+            allowEditing: false
         }, {
-            dataField: "fullname"
+            dataField: "user_from_id"
         }, {
-            dataField: "password"
-        }, ],
-    }).dxDataGrid("instance");
+            dataField: "user_to_id"
+        }],
+
+    });
 });
