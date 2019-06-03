@@ -38,7 +38,6 @@ def get_message(id):
     return Response(message, status=404, mimetype='application/json')
 
 
-
 @app.route('/users', methods = ['GET'])
 def get_users():
     session = db.getSession(engine)
@@ -80,19 +79,13 @@ def create_message():
         c =  json.loads(request.form['values'])
         message = entities.Message(
             content=c['content'],
-            user_from_id=c['user_from_id'],
-            user_to_id=c['user_to_id']
+            user_from_id=c['user_from']['username']['id'],
+            user_to_id=c['user_to']['username']['id']
             )
         session = db.getSession(engine)
         session.add(message)
         session.commit()
         return 'Created Message'
-
-
-
-
-
-
 
 
 
@@ -107,18 +100,18 @@ def update_user():
         session.add(user)
         session.commit()
         return 'Updated User'
+
 @app.route('/messages', methods = ['PUT'])
 def update_message():
         session = db.getSession(engine)
         id = request.form['key']
-        user = session.query(entities.Message).filter(entities.Message.id == id).first()
+        message = session.query(entities.Message).filter(entities.Message.id == id).first()
         c =  json.loads(request.form['values'])
         for key in c.keys():
-            setattr(user, key, c[key])
-        session.add(user)
+            setattr(message, key, c[key])
+        session.add(message)
         session.commit()
         return 'Updated Message Form'
-
 
 
 @app.route('/users', methods = ['DELETE'])
@@ -130,12 +123,11 @@ def delete_user():
         session.commit()
         return "Deleted Message"
 
-
 @app.route('/messages', methods = ['DELETE'])
 def delete_message():
         id = request.form['key']
         session = db.getSession(engine)
-        messages = session.query(entities.Messages).filter(entities.Messages.id == id).one()
+        messages = session.query(entities.Message).filter(entities.Message.id == id).one()
         session.delete(messages)
         session.commit()
         return "Deleted Message"
