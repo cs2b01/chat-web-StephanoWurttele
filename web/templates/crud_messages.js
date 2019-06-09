@@ -1,9 +1,7 @@
 $(function(){
     var url = "http://127.0.0.1:8080/messages";
     var url2 = "http://127.0.0.1:8080/users";
-
-
-    $("#grid").dxDataGrid({
+    var xd={
         dataSource: DevExpress.data.AspNet.createStore({
             key: "id",
             loadUrl: url ,
@@ -36,7 +34,7 @@ $(function(){
         headerFilter: {
             visible: true
         },
-
+        
         columns: [{
             dataField: "id",
             dataType: "number",
@@ -50,7 +48,7 @@ $(function(){
             dataField: "user_from.username",
             lookup: {
                 dataSource: DevExpress.data.AspNet.createStore({
-                    key: "id",
+                    key: "user_from",
                     loadUrl:url2,
                     onBeforeSend: function(method, ajaxOptions) {
                         ajaxOptions.xhrFields = { withCredentials: true };
@@ -60,16 +58,19 @@ $(function(){
             }
         }, {
             dataField: "user_to.username",
-            lookup: {
+            /*lookup: {
                 dataSource: DevExpress.data.AspNet.createStore({
-                    key: "id",
+                    key: "user_to",
                     loadUrl:url2,
                     onBeforeSend: function(method, ajaxOptions) {
                         ajaxOptions.xhrFields = { withCredentials: true };
                     }
                 }),
                 displayExpr: "username"
-            }
+            }*/
         },],
-    }).dxDataGrid("instance");
+    };
+    $("#grid").dxDataGrid(xd);
+    console.log("owo");
+    console.log(xd);
 });

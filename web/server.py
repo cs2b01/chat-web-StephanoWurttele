@@ -2,6 +2,7 @@ from flask import Flask,render_template, request, session, Response, redirect
 from database import connector
 from model import entities
 import json
+import time
 
 db = connector.Manager()
 engine = db.createEngine()
@@ -15,6 +16,9 @@ def index():
 @app.route('/static/<content>')
 def static_content(content):
     return render_template(content)
+
+
+
 
 
 @app.route('/messages', methods = ['GET'])
@@ -36,6 +40,53 @@ def get_message(id):
 
     message = { 'status': 404, 'message': 'Not Found'}
     return Response(message, status=404, mimetype='application/json')
+
+
+@app.route('/messages', methods = ['POST'])
+def create_message():
+        c =  json.loads(request.form['values'])
+        message = entities.Message(
+            content=c['content'],
+            user_from_id=c['user_from']['username']['id'],
+            user_to_id=c['user_to']['username']['id']
+            )
+        print(message.user_from)
+        print(message.user_from_id)
+        session = db.getSession(engine)
+        session.add(message)
+        session.commit()
+        return 'Created Message'
+
+@app.route('/messages', methods = ['PUT'])
+def update_message():
+        session = db.getSession(engine)
+        id = request.form['key']
+        message = session.query(entities.Message).filter(entities.Message.id == id).first()
+        c =  json.loads(request.form['values'])
+        for key in c.keys():
+            setattr(message, key, c[key])
+        session.add(message)
+        session.commit()
+        return 'Updated Message Form'
+
+
+
+@app.route('/messages', methods = ['DELETE'])
+def delete_message():
+        id = request.form['key']
+        session = db.getSession(engine)
+        messages = session.query(entities.Message).filter(entities.Message.id == id).one()
+        session.delete(messages)
+        session.commit()
+        return "Deleted Message"
+
+
+
+############################################################
+
+
+############################################################
+
 
 
 @app.route('/users', methods = ['GET'])
@@ -74,20 +125,6 @@ def create_user():
         session.commit()
         return 'Created User'
 
-@app.route('/messages', methods = ['POST'])
-def create_message():
-        c =  json.loads(request.form['values'])
-        message = entities.Message(
-            content=c['content'],
-            user_from_id=c['user_from']['username']['id'],
-            user_to_id=c['user_to']['username']['id']
-            )
-        session = db.getSession(engine)
-        session.add(message)
-        session.commit()
-        return 'Created Message'
-
-
 
 @app.route('/users', methods = ['PUT'])
 def update_user():
@@ -101,18 +138,6 @@ def update_user():
         session.commit()
         return 'Updated User'
 
-@app.route('/messages', methods = ['PUT'])
-def update_message():
-        session = db.getSession(engine)
-        id = request.form['key']
-        message = session.query(entities.Message).filter(entities.Message.id == id).first()
-        c =  json.loads(request.form['values'])
-        for key in c.keys():
-            setattr(message, key, c[key])
-        session.add(message)
-        session.commit()
-        return 'Updated Message Form'
-
 
 @app.route('/users', methods = ['DELETE'])
 def delete_user():
@@ -123,24 +148,22 @@ def delete_user():
         session.commit()
         return "Deleted Message"
 
-@app.route('/messages', methods = ['DELETE'])
-def delete_message():
-        id = request.form['key']
-        session = db.getSession(engine)
-        messages = session.query(entities.Message).filter(entities.Message.id == id).one()
-        session.delete(messages)
-        session.commit()
-        return "Deleted Message"
+############################################################
+
+
+############################################################
 
 
 @app.route('/authenticate',methods=['POST'])
 def authenticate():
+    time.sleep(2)
     #1. Get data from request
-    username=request.form['username']
-    password=request.form['password']
+    message = json.loads(request.data)
+    username=message['username']
+    password=message['password']
     #2. Get user from database
     db_session=db.getSession(engine)
-    #users=db_session.query(entities.User.usern)
+    #users=db_session.query(entities.User.username)
 
     #3. Search the user in collection (not efficient) :c
 
@@ -155,9 +178,31 @@ def authenticate():
             ).filter(entities.User.username==username
             ).filter(entities.User.password==password
             ).one()
-        return render_template("success.html")
+        message={'message':'Authorized'}
+        return Response(message,status=200,mimetype='application/json')
     except Exception:
-        return render_template("fail.html")
+        message={'message':'Unauthorized'}
+        return Response(message,status=401,mimetype='application/json')
+
+
+@app.route('/chat/<username>/<id>')
+def chat_mensajes(username,id):
+    db_session = db.getSession(engine)
+    usuarios= db_session.query(entities.User).filter(entities.User.id!=username).all();
+    enviador = db_session.query(entities.User).filter(entities.User.username==id).one();
+    mensajes_recibidos = db_session.query(entities.Message).filter(entities.Message.user_to_id==username).filter(entities.Message.user_from_id==enviador.id).all();
+    mensajes_enviados = db_session.query(entities.Message).filter(entities.Message.user_to_id==enviador.id).filter(entities.Message.user_from_id==username).all();
+    return render_template('chat.html', users=usuarios,mensajes_recibidos=mensajes_recibidos,mensajes_enviados=mensajes_enviados)
+
+
+@app.route('/chat/<username>')
+def chat(username):
+    db_session = db.getSession(engine)
+    usuario=db_session.query(entities.User).filter(entities.User.username==username).one();
+    usuarios=db_session.query(entities.User).filter(entities.User.username!=username).all();
+    return render_template('chat.html', users=usuarios,actual=usuario.id)
+
+
 
 if __name__ == '__main__':
     app.secret_key = ".."
