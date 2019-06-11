@@ -18,7 +18,7 @@ class Manager:
             Session = sessionmaker(bind=engine)
             session = Session()
         return session
-
+        
 class AlchemyEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj.__class__, DeclarativeMeta):

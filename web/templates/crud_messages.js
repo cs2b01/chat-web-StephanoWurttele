@@ -51,14 +51,14 @@ $(function(){
                     key: "user_from",
                     loadUrl:url2,
                     onBeforeSend: function(method, ajaxOptions) {
-                        ajaxOptions.xhrFields = { withCredentials: true };
+                        ajaxOptions.xhrFields = { withCredentials: true };  
                     }
                 }),
                 displayExpr: "username"
             }
         }, {
             dataField: "user_to.username",
-            /*lookup: {
+        lookup: {
                 dataSource: DevExpress.data.AspNet.createStore({
                     key: "user_to",
                     loadUrl:url2,
@@ -67,7 +67,7 @@ $(function(){
                     }
                 }),
                 displayExpr: "username"
-            }*/
+            }
         },],
     };
     $("#grid").dxDataGrid(xd);

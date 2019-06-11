@@ -4,45 +4,75 @@
     <meta charset="UTF-8">
     <title>inside chat</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
     <!-- Compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="chat.js"></script>
+    <style>
+
+body {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.mensaje {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.recibido {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+.mensaje::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.mensaje img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+.mensaje img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right:0;
+}
+.time-right {
+    float: right;
+    color: #aaa;
+}
+.time-left {
+    float: left;    
+    color: #999;
+}
+    </style>
 </head>
-<body>
-    <div>&nbsp &nbsp</div>
-<div class="row">
-    <div class="col s1"></div>
-    <div class="col s3 card green">
+<body onload="whoami()">
+</br>
+    <div class="row">
+    <div class="col 30% card green">
         <div class="collection">
-            {%for x in users%}
-            <div>
-            <a class="collection-item" href="{{actual}}/{{x.username}}/xd">
-                <span  class="badge"></span>{{x.username}}
-            </a>
-            </div>
-            {%endfor%}
+            <div id="active_id"></div>
+            <div id="active_username"></div>
+            <div id="users"></div>
         </div>
     </div>
-    <div class="col s1"></div>
-    <div class="col s3 card green">
+    <div class="col 5% s1"></div>
+    <div class="col 70% card green">
         <div class="collection">
-            {%for y in mensajes_recibidos%}
-            <div>
-            <a class="collection-item">
-                <span class="badge"></span>{{y.content}}
-            </a>
-            </div>
-            {%endfor%}
-        </div>
-    </div>
-    <div class="col s3 card red">
-        <div class="collection">
-            {%for z in mensajes_enviados%}
-            <div>
-            <a class="collection-item">
-                <span class="badge"></span>{{z.content}}
-            </a>
-            </div>
-            {%endfor%}
+            <div id="mensajes"></div>
         </div>
     </div>
     </div>

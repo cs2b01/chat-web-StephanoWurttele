@@ -178,30 +178,22 @@ def authenticate():
             ).filter(entities.User.username==username
             ).filter(entities.User.password==password
             ).one()
+        session['logged_user'] = user.id
         message={'message':'Authorized'}
         return Response(message,status=200,mimetype='application/json')
     except Exception:
         message={'message':'Unauthorized'}
         return Response(message,status=401,mimetype='application/json')
 
-
-@app.route('/chat/<username>/<id>')
-def chat_mensajes(username,id):
+@app.route('/current')
+def current():
     db_session = db.getSession(engine)
-    usuarios= db_session.query(entities.User).filter(entities.User.id!=username).all();
-    enviador = db_session.query(entities.User).filter(entities.User.username==id).one();
-    mensajes_recibidos = db_session.query(entities.Message).filter(entities.Message.user_to_id==username).filter(entities.Message.user_from_id==enviador.id).all();
-    mensajes_enviados = db_session.query(entities.Message).filter(entities.Message.user_to_id==enviador.id).filter(entities.Message.user_from_id==username).all();
-    return render_template('chat.html', users=usuarios,mensajes_recibidos=mensajes_recibidos,mensajes_enviados=mensajes_enviados)
-
-
-@app.route('/chat/<username>')
-def chat(username):
-    db_session = db.getSession(engine)
-    usuario=db_session.query(entities.User).filter(entities.User.username==username).one();
-    usuarios=db_session.query(entities.User).filter(entities.User.username!=username).all();
-    return render_template('chat.html', users=usuarios,actual=usuario.id)
-
+    user = db_session.query(entities.User).filter(
+        entities.User.id == session['logged_user']
+        ).first()
+    return Response(json.dumps(user,cls=connector.AlchemyEncoder),
+    mimetype='application/json'
+    )
 
 
 if __name__ == '__main__':
