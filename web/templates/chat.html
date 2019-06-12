@@ -56,6 +56,7 @@ body {
     float:right;
 }
 
+
 .time-right {
     float: right;
     color: #aaa;
@@ -63,6 +64,61 @@ body {
 .time-left {
     float: left;    
     color: #999;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  /* Centrar contenedor vertical y horizontalmente */
+  /* Estilos del contenedor */
+.container {
+    padding: 1rem 1.5rem;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-family: sans-serif;
+    text-align: justify;
+    line-height: 1.3;
+    overflow: auto;
+}
+
+.container p:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+/* Tamaño del scroll */
+.container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+   /* Estilos barra (thumb) de scroll */
+.container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-thumb:active {
+    background-color: #999999;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos track de scroll */
+.container::-webkit-scrollbar-track {
+    background: #e1e1e1;
+    border-radius: 4px;
+}
+
+.container::-webkit-scrollbar-track:hover,
+.container::-webkit-scrollbar-track:active {
+    background: #d4d4d4;
 }
     </style>
 </head>
@@ -76,7 +132,7 @@ body {
             </div>
         </div>
         <div class="col 5% s1"></div>
-        <div class="col s7 card green">
+        <div id="container" class="container col s7 card green" >
             <div id="big" class="collection">
                 <div id="mensajes">
                 </div>

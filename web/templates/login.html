@@ -4,28 +4,43 @@
     <meta charset="UTF-8">
     <title>Chat Login</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">
     </script>
     <script src="login.js"></script>
 </head>
-<body>
-<div class='login'>
-    <form method="post">
-        <tr>
-            <td>Username</td>
-            <td><input type="text" id="username" name="username" placeholder="username" required="required" /></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input name="password" placeholder="password" required="required" type="password" id="password" /></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input class="btn btn-primary btn-block btn-large" type="button" value="login" onclick="getData()"/>
-            </td>
-        </tr>
-    </table>
-    <div>
+<body bgcolor="green">
+</br>
+</br>
+</br>
+</br>
+</br>
+<div class='row login'>
+    <div class="col s4"></div>
+    <div class="card-panel teal lighten-1 col s4">
+        <form method="post">
+            <tr>
+                <td>Username</td>
+                <td><input type="text" id="username" name="username" placeholder="username" required="required" /></td>
+            </tr>
+        </br>
+        </br>
+            <tr>
+                <td>Password</td>
+                <td><input name="password" placeholder="password" required="required" type="password" id="password" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input class="btn btn-primary btn-block btn-large" type="button" value="login" onclick="getData()"/>
+                </td>
+            </tr>
+        </table>
+        <div>
+    </div>
         <img id="gif" src="../static/images/giphy.gif" style="display:none">
         <img id="fail" src="../static/images/19104926-niega-icono-incorrecto-el-botón-rojo-.jpg" style="display:none">
     </div>

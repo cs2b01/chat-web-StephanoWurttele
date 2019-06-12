@@ -43,7 +43,7 @@ def get_message(id):
 
 
 @app.route('/messages', methods = ['POST'])
-def create_message():
+def create_ ():
         c =  json.loads(request.form['values'])
         message = entities.Message(
             content=c['content'],
@@ -52,6 +52,19 @@ def create_message():
             )
         print(message.user_from)
         print(message.user_from_id)
+        session = db.getSession(engine)
+        session.add(message)
+        session.commit()
+        return 'Created Message'
+
+@app.route('/messages2', methods = ['POST'])
+def create_messages ():
+        c =  json.loads(request.data)
+        message = entities.Message(
+            content=c['content'],
+            user_from_id=c['user_from_id'],
+            user_to_id=c['user_to_id']
+            )
         session = db.getSession(engine)
         session.add(message)
         session.commit()
@@ -80,6 +93,19 @@ def delete_message():
         session.commit()
         return "Deleted Message"
 
+
+@app.route('/messagesdel', methods = ['DELETE'])
+def delete_message2():
+        id = json.loads(request.data)
+        print("id recibido es")
+        print(id)
+        print(id['content'])
+        session = db.getSession(engine)
+        messages = session.query(entities.Message).filter(entities.Message.id == id['content']).first()
+        print(messages)
+        session.delete(messages)
+        session.commit()
+        return "Deleted Message"
 
 
 ############################################################

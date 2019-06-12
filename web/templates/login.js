@@ -7,7 +7,6 @@ function getData(){
         "username": username,
         "password": password
     });
-    console.log("xopowo")
     $('#fail').hide();
     $.ajax({
         url:'/authenticate',
