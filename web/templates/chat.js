@@ -55,18 +55,13 @@ function getMessages(current,messenger){
                     if ((response[i].user_from_id==messenger | response[i].user_from_id==current) & (response[i].user_to_id==messenger | response[i].user_to_id==current)){
                         f= '<div id="fila'+i+'" class="col row s12"><div id="burbuja'+i+'" class="col s12">';
                         if(response[i].user_from_id==messenger){
-                            console.log("uwu");
                             f = f + '<div class="recibido col row s2">';
-                            console.log(f)
                         }
                         else{
-                            console.log("owo");
                             f = f + '<div class= "mensaje col row s2 right">';
-                            console.log(f);
                         }
                         f = f + response[i].content;
                         f = f + '</div></div></div>';
-                        console.log(f);
                         $('#mensajes').append(f);
                     }
                     i = i+1;
@@ -120,7 +115,6 @@ function Sendmessage(){
 };
     $.ajax({
         success: function(response){
-            console.log($('#message'))
         },
         error: function(response){
             alert(JSON.stringify(response));
