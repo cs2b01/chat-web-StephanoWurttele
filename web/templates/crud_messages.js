@@ -71,6 +71,4 @@ $(function(){
         },],
     };
     $("#grid").dxDataGrid(xd);
-    console.log("owo");
-    console.log(xd);
 });

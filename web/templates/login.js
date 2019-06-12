@@ -7,6 +7,8 @@ function getData(){
         "username": username,
         "password": password
     });
+    console.log("xopowo")
+    $('#fail').hide();
     $.ajax({
         url:'/authenticate',
         type:'POST',
@@ -20,6 +22,7 @@ function getData(){
 
             if(response['status']==401){
                 $('#gif').hide();
+                $('#fail').show();
             }
             else{
                 $('#gif').hide();

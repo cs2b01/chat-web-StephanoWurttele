@@ -99,7 +99,7 @@ def get_users():
     return Response(json.dumps(data, cls=connector.AlchemyEncoder), mimetype='application/json')
 
 @app.route('/users/<id>', methods = ['GET'])
-def get_user(id):
+def get_user(id):   
     db_session = db.getSession(engine)
     users = db_session.query(entities.User).filter(entities.User.id == id)
     for user in users:

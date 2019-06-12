@@ -13,7 +13,6 @@
 
 body {
     margin: 0 auto;
-    max-width: 800px;
     padding: 0 20px;
 }
 
@@ -23,11 +22,16 @@ body {
     border-radius: 5px;
     padding: 10px;
     margin: 10px 0;
+    float:right;
 }
 
 .recibido {
+    border-radius: 5px;
     border-color: #ccc;
-    background-color: #ddd;
+    background-color: #dddd;
+    float: left;
+    padding: 10px;
+    margin: 10px 0;
 }
 
 .mensaje::after {
@@ -37,7 +41,6 @@ body {
 }
 
 .mensaje img {
-    float: left;
     max-width: 60px;
     width: 100%;
     margin-right: 20px;
@@ -49,6 +52,10 @@ body {
     margin-left: 20px;
     margin-right:0;
 }
+.right{
+    float:right;
+}
+
 .time-right {
     float: right;
     color: #aaa;
@@ -60,21 +67,21 @@ body {
     </style>
 </head>
 <body onload="whoami()">
-</br>
     <div class="row">
-    <div class="col 30% card green">
-        <div class="collection">
-            <div id="active_id"></div>
-            <div id="active_username"></div>
-            <div id="users"></div>
+        <div class="col s3 card green">
+            <div class="collection">
+                <div id="active_id"></div>
+                <div id="active_username"></div>
+                <div id="users"></div>
+            </div>
         </div>
-    </div>
-    <div class="col 5% s1"></div>
-    <div class="col 70% card green">
-        <div class="collection">
-            <div id="mensajes"></div>
+        <div class="col 5% s1"></div>
+        <div class="col s7 card green">
+            <div id="big" class="collection">
+                <div id="mensajes">
+                </div>
+            </div>
         </div>
-    </div>
     </div>
 </body>
 </html>
